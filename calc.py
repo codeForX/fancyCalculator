@@ -6,6 +6,9 @@ import functools
 
 class calculator(QMainWindow):
     def __init__(self, parent=None):
+        '''
+        sets up calculator object
+        '''
         super().__init__(parent)
         self.setGeometry(100, 100, 500, 1000)
         central = QWidget()
@@ -21,12 +24,18 @@ class calculator(QMainWindow):
         central.setLayout(self.grid)
     
     def setupScreen(self):
+        '''
+        sets structure of calculator 
+        '''
         self.screen.setSizePolicy(QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding))
         self.grid.addWidget(self.screen,0,1,1,3)
         self.screen.setText('')
         self.screen.setAlignment(Qt.AlignRight)
         self.screen.setStyleSheet("background-color: #99ff4b; border: 1px solid black;border-radius: 10px;font-size: 36px;") 
     def setupButtons(self):
+        '''
+        sets up all buttons and links them to methods
+        '''
         for number in range(10) : 
             self.buttons[number] = QPushButton(str(number))
             self.buttons[number].clicked.connect(functools.partial(self.numberPressed,str(number)))
@@ -36,8 +45,6 @@ class calculator(QMainWindow):
             self.buttons[button].clicked.connect(functools.partial(self.buttonPressed,button))
             self.buttons[button].setSizePolicy(QSizePolicy(QSizePolicy.Expanding,QSizePolicy.Expanding))
         
-        
-
         self.grid.addWidget(self.buttons[9],1,0 )
         self.grid.addWidget(self.buttons[8],1,1)
         self.grid.addWidget(self.buttons[7],1,2)
@@ -65,9 +72,17 @@ class calculator(QMainWindow):
 
 
     def numberPressed(self,btn):
+        '''
+        adds numbers as pressed
+        '''
         self.display += btn
         self.displayText()
+
+
     def buttonPressed(self,btn):
+        '''
+        deals with calculator opporations
+        '''
         if btn in ['(',')','.']:
             self.display += btn
         elif btn == 'C':
@@ -97,6 +112,9 @@ class calculator(QMainWindow):
             
 
     def displayText(self):
+        '''
+        displays formated calculator text in 
+        '''
         self.screen.setText(f'<h2>{self.display}</h2> <br> {self.expression}')
 
 def main():
