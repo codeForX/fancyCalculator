@@ -90,6 +90,8 @@ class calculator(QMainWindow):
         '''
         if self.lastUsedEquals:
             self.display = ''
+            self.expression = ''
+            self.lastUsedEquals = ''
         self.display += btn
         self.expression += btn
         self.displayText()
