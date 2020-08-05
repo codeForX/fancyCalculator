@@ -41,11 +41,17 @@ class calculator(QMainWindow):
             self.buttons[number] = QPushButton(str(number))
             self.buttons[number].clicked.connect(functools.partial(self.numberPressed,str(number)))
             self.buttons[number].setSizePolicy(QSizePolicy(QSizePolicy.Expanding,QSizePolicy.Expanding))
+            self.buttons[number].setStyleSheet("background-color: #ffffff;font-size: 36px;")
+
         for button in ['/','C','*','(',')','-','.','+','=']:   
             self.buttons[button] = QPushButton(button)
             self.buttons[button].clicked.connect(functools.partial(self.buttonPressed,button))
             self.buttons[button].setSizePolicy(QSizePolicy(QSizePolicy.Expanding,QSizePolicy.Expanding))
-        
+            self.buttons[button].setStyleSheet("background-color: #acaaa7;font-size: 36px;")
+
+        self.buttons['='].setStyleSheet("background-color: #ffb235;font-size: 36px;")
+        self.buttons['C'].setStyleSheet("background-color: #6f6f6f;font-size: 36px;")
+
         self.grid.addWidget(self.buttons[9],1,0 )
         self.grid.addWidget(self.buttons[8],1,1)
         self.grid.addWidget(self.buttons[7],1,2)
