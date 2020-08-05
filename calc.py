@@ -11,6 +11,7 @@ class calculator(QMainWindow):
         '''
         super().__init__(parent)
         self.setGeometry(100, 100, 500, 1000)
+        self.setWindowTitle('fancy calc')
         central = QWidget()
         self.lastUsedEquals = False
         self.expression = ''
@@ -38,16 +39,21 @@ class calculator(QMainWindow):
         sets up all buttons and links them to methods
         '''
         for number in range(10) : 
-            self.buttons[number] = QPushButton(str(number))
-            self.buttons[number].clicked.connect(functools.partial(self.numberPressed,str(number)))
+            numString = str(number)
+            self.buttons[number] = QPushButton(numString)
+            self.buttons[number].clicked.connect(functools.partial(self.numberPressed,numString))
             self.buttons[number].setSizePolicy(QSizePolicy(QSizePolicy.Expanding,QSizePolicy.Expanding))
             self.buttons[number].setStyleSheet("background-color: #ffffff;font-size: 36px;")
+            self.shortcut = QShortcut(QKeySequence(numString), self)
+            self.shortcut.activated.connect(functools.partial(self.numberPressed,numString))
 
         for button in ['/','C','*','(',')','-','.','+','=']:   
             self.buttons[button] = QPushButton(button)
             self.buttons[button].clicked.connect(functools.partial(self.buttonPressed,button))
             self.buttons[button].setSizePolicy(QSizePolicy(QSizePolicy.Expanding,QSizePolicy.Expanding))
             self.buttons[button].setStyleSheet("background-color: #acaaa7;font-size: 36px;")
+            self.shortcut = QShortcut(QKeySequence(button), self)
+            self.shortcut.activated.connect(functools.partial(self.buttonPressed,button))
 
         self.buttons['='].setStyleSheet("background-color: #ffb235;font-size: 36px;")
         self.buttons['C'].setStyleSheet("background-color: #6f6f6f;font-size: 36px;")
