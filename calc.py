@@ -12,6 +12,7 @@ class calculator(QMainWindow):
         super().__init__(parent)
         self.setGeometry(100, 100, 500, 1000)
         central = QWidget()
+        self.lastUsedEquals = False
         self.expression = ''
         self.display = ''
         self.buttons = {}
@@ -75,7 +76,10 @@ class calculator(QMainWindow):
         '''
         adds numbers as pressed
         '''
+        if self.lastUsedEquals:
+            self.display = ''
         self.display += btn
+        self.expression += btn
         self.displayText()
 
 
@@ -83,14 +87,15 @@ class calculator(QMainWindow):
         '''
         deals with calculator opporations
         '''
+        self.lastUsedEquals = False
         if btn in ['(',')','.']:
             self.display += btn
+            self.expression += btn
         elif btn == 'C':
             self.display = ''
             self.expression = ''
         elif btn == '=':
             if self.expression and self.expression != 'ERROR':
-                self.expression += self.display
                 try:
                     self.display = str(eval(self.expression))
                     self.expression = ''
@@ -98,18 +103,18 @@ class calculator(QMainWindow):
                 except Exception as error:
                     self.display = 'ERROR'
                     print(error)
-                    self.screen.setText(self.display)
+                self.lastUsedEquals = True
             else:
                 self.display = ''
-                self.screen.clear()
         else:
             if '(' in self.display and not ')' in self.display:
                 self.display += btn
             else:
-                self.expression = (self.expression + self.display + btn)
                 self.display = ''
+            self.expression += btn
         self.displayText()
-            
+        if self.lastUsedEquals:
+            self.expression = self.display 
 
     def displayText(self):
         '''
